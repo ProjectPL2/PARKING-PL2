@@ -9,7 +9,8 @@ public class Parking {
         //Ali done
         //Abdullah done
         //new branch
-        System.out.println("neww");
+        Customer c1 = new Customer(1,"22/12/2020","abc 123");
+        c1.getTicket();
     }
     
 }
