@@ -8,20 +8,8 @@ public class Parking {
 
 
     public static void main(String[] args) {
-        HashMap<String,Boolean> spots = new HashMap<>();
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 1; j <= 10; j++) {
-                spots.put(""+(char)(i+65)+""+j,true);
-            }
-        }
-        System.out.println(spots.get("A1"));
-        spots.replace("A1", Boolean.FALSE);
-        
-        spots.keySet().forEach(i -> {
-            System.out.println(i);
-        });
-        System.out.println(spots.get("A1"));
+        Customer c1 = new Customer(1,"30/10/2020 02:15", "abc 123");
+        c1.getTicket();
     }
     
     /*class admin_DDL{

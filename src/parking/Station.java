@@ -5,11 +5,8 @@ import java.util.HashMap;
 
 public class Station {
     
-    private static HashMap<String,Boolean> spots;
+    private static final HashMap<String,Boolean> spots = new HashMap<>();
 
-    public Station() {
-        spots = new HashMap<>();
-    }
     
     protected static void creatParking(int numberOfFloors,int spotsInFloor){
         for (int i = 0; i < numberOfFloors; i++) {
