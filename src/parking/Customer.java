@@ -13,20 +13,6 @@ public class Customer {
         this.plateNumber = plateNumber;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getPlateNumber() {
-        return plateNumber;
-    }
-
-    public Calendar getTransactionDate() {
-        return transactionDate;
-    }
-
-
-
     public void setId(int id) {
         this.id = id;
     }
