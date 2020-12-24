@@ -15,8 +15,6 @@ public class Parking {
         Operators o = new Operators(1, "ahmed");        
         o.addCustomer("A1", c);
         TimeUnit.SECONDS.sleep(10);
-        o.removeCustomer("A1", c);
-        System.out.println(c.totalParkingHours());
     }
     
     /*class admin_DDL{

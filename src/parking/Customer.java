@@ -6,9 +6,7 @@ import java.util.Calendar;
 public class Customer {
     private int id;
     private String plateNumber;
-    private int StartTransactionDate;
-    private int endTransactionDate;
-    private int totalHours;
+    private Calendar transactionDate;
     
     public Customer(int id, String plateNumber) {
         this.id = id;
@@ -23,13 +21,11 @@ public class Customer {
         return plateNumber;
     }
 
-    public int getStartTransactionDate() {
-        return StartTransactionDate;
+    public Calendar getTransactionDate() {
+        return transactionDate;
     }
 
-    public int getEndTransactionDate() {
-        return endTransactionDate;
-    }
+
 
     public void setId(int id) {
         this.id = id;
@@ -39,13 +35,10 @@ public class Customer {
         this.plateNumber = plateNumber;
     }
 
-    public void setStartTransactionDate(int StartTransactionDate) {
-        this.StartTransactionDate = StartTransactionDate;
+    public void setTransactionDate(Calendar transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
-    public void setEndTransactionDate(int endTransactionDate) {
-        this.endTransactionDate = endTransactionDate;
-    }
 
     
     
@@ -58,14 +51,10 @@ public class Customer {
         System.out.println("|                                                    |");
         System.out.println("|     Customer Id : "+this.id+"                       \t\t|");
         System.out.println("|     Plate Number : "+this.plateNumber+"             \t\t|");
+        System.out.println("|     Date : "+this.transactionDate+"             \t\t|");
         System.out.println("|                                                    |");
         System.out.println("-----------------------------------------------------");
     }
     
-    public int totalParkingHours(){
-        totalHours =this.endTransactionDate-this.StartTransactionDate;
-        System.out.println(this.endTransactionDate);
-        System.out.println(this.StartTransactionDate);
-        return totalHours;
-    }
+    
 }

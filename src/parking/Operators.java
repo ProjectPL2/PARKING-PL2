@@ -35,16 +35,21 @@ public class Operators {
     public void addCustomer(String place , Customer c){
         this.startDate = Calendar.getInstance(); 
         Station.addCustomer(place);
-        c.setStartTransactionDate(startDate.get(Calendar.SECOND));
+        c.setTransactionDate(startDate);
+            
         
     }
     
     public void removeCustomer(String place,Customer c){
         this.endDate = Calendar.getInstance();
         Station.removeCustomer(place);
-        c.setEndTransactionDate(endDate.get(Calendar.SECOND));
     }
     
-    
+    public int totalParkingHours(){
+        if (endDate.get(Calendar.MINUTE) >= 30)
+            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR)+1);
+        else
+            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR));
+    }
     
 }
