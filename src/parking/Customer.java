@@ -1,15 +1,17 @@
-
 package parking;
+
+import java.util.Calendar;
 
 
 public class Customer {
     private int id;
-    private String transactionDate ;
     private String plateNumber;
-
-    public Customer(int id, String transactionDate, String plateNumber) {
+    private int StartTransactionDate;
+    private int endTransactionDate;
+    private int totalHours;
+    
+    public Customer(int id, String plateNumber) {
         this.id = id;
-        this.transactionDate = transactionDate;
         this.plateNumber = plateNumber;
     }
 
@@ -17,25 +19,35 @@ public class Customer {
         return id;
     }
 
-    public String getTransactionDate() {
-        return transactionDate;
-    }
-
     public String getPlateNumber() {
         return plateNumber;
+    }
+
+    public int getStartTransactionDate() {
+        return StartTransactionDate;
+    }
+
+    public int getEndTransactionDate() {
+        return endTransactionDate;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setTransactionDate(String transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
     public void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
     }
+
+    public void setStartTransactionDate(int StartTransactionDate) {
+        this.StartTransactionDate = StartTransactionDate;
+    }
+
+    public void setEndTransactionDate(int endTransactionDate) {
+        this.endTransactionDate = endTransactionDate;
+    }
+
+    
     
     public void getTicket(){
         System.out.println("------------------------------------------------------");
@@ -46,8 +58,14 @@ public class Customer {
         System.out.println("|                                                    |");
         System.out.println("|     Customer Id : "+this.id+"                       \t\t|");
         System.out.println("|     Plate Number : "+this.plateNumber+"             \t\t|");
-        System.out.println("|     Transaction Date : "+this.transactionDate+"    \t\t|");
         System.out.println("|                                                    |");
         System.out.println("-----------------------------------------------------");
+    }
+    
+    public int totalParkingHours(){
+        totalHours =this.endTransactionDate-this.StartTransactionDate;
+        System.out.println(this.endTransactionDate);
+        System.out.println(this.StartTransactionDate);
+        return totalHours;
     }
 }

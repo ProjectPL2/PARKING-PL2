@@ -1,15 +1,22 @@
 
 package parking;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public class Parking {
 
 
-    public static void main(String[] args) {
-        Customer c1 = new Customer(1,"30/10/2020 02:15", "abc 123");
-        c1.getTicket();
+    public static void main(String[] args) throws InterruptedException {
+        Customer c =new Customer(1,"abc 123");
+        Operators o = new Operators(1, "ahmed");        
+        o.addCustomer("A1", c);
+        TimeUnit.SECONDS.sleep(10);
+        o.removeCustomer("A1", c);
+        System.out.println(c.totalParkingHours());
     }
     
     /*class admin_DDL{
