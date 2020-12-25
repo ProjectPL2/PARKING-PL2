@@ -14,7 +14,7 @@ public class Parking {
         Customer c =new Customer(1,"abc 123");
         Operators o = new Operators(1, "ahmed");        
         o.addCustomer("A1", c);
-        //Hossam in
+        //nemeen in
         TimeUnit.SECONDS.sleep(10);
     }
     
