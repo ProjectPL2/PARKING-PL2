@@ -1,11 +1,10 @@
 package parking;
 
-
 import java.util.HashMap;
 
 public class Station {
     
-    private static final HashMap<String,Boolean> spots = new HashMap<>();
+    public static final HashMap<String,Boolean> spots = new HashMap<>();
 
     
     protected static void creatParking(int numberOfFloors,int spotsInFloor){
@@ -15,6 +14,7 @@ public class Station {
             }
         }
     }
+  
     
     public static void addCustomer(String place){
         spots.replace(place, Boolean.FALSE);

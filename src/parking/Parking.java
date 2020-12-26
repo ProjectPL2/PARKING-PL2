@@ -12,10 +12,8 @@ public class Parking {
 
     public static void main(String[] args) throws InterruptedException {
         Customer c =new Customer(1,"abc 123");
-        Operators o = new Operators(1, "ahmed");        
+        Operators o = new Operators(1, "ahmed");  
         o.addCustomer("A1", c);
-        //nemeen in
-        //hi nemeen طز فيكى
         TimeUnit.SECONDS.sleep(10);
     }
     
