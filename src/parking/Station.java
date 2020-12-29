@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public abstract class Station {
+public  class Station {
     
     
     public static final HashMap<String,Boolean> spots = new HashMap<>();

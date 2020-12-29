@@ -5,33 +5,22 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-<<<<<<< HEAD
-=======
 import java.util.Collections;
-import java.util.HashMap;
-
->>>>>>> 0d297696ee1a9be512b6cb4de30487bf561a1a9c
 import java.util.Scanner;
 
-public  class Operators extends Station implements MyInterface{
+public abstract class Operators extends admin_DDL implements MyInterface{
+    
     
     private final Scanner input = new Scanner(System.in);
     static Connection con;
     static Statement s;
     
-<<<<<<< HEAD
-    @Override
-    public  void getFreeSpots()
-=======
-    public static void getFreeSpots()
->>>>>>> 0d297696ee1a9be512b6cb4de30487bf561a1a9c
-    {
+    
+    public void getFreeSpots(){
         int size=spots.size();
         
         ArrayList<String> key = new ArrayList<>(spots.keySet()); 
-        Collections.sort(key);  
-        ArrayList<Boolean> value= new ArrayList<>(spots.values());
-
+        Collections.sort(key); 
         ArrayList<String> free =new ArrayList<>();
         
         int flag =0; //to check if there are free spots or not
@@ -77,11 +66,7 @@ public  class Operators extends Station implements MyInterface{
             System.out.println(ex.getMessage());
         }*/
     }
-<<<<<<< HEAD
-    
-    @Override
-=======
->>>>>>> 0d297696ee1a9be512b6cb4de30487bf561a1a9c
+
     public void removeCustomer(String place,Customer c){
         Station.spots.replace(place, Boolean.TRUE);
         c.setEndDate(Calendar.getInstance()); 
@@ -95,7 +80,6 @@ public  class Operators extends Station implements MyInterface{
         }*/
     }
     
-    @Override
     public int totalParkingHours(Customer c){
         if (c.getEndDate().get(Calendar.MINUTE) >= 30)
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR)+1);
@@ -104,7 +88,6 @@ public  class Operators extends Station implements MyInterface{
 
     }
     
-    @Override
     public void Payment(Customer c, double payed){
         double exchange,cost=10*totalParkingHours(c);
         if(payed==cost){
@@ -118,4 +101,8 @@ public  class Operators extends Station implements MyInterface{
         }
 
     }
+
+ 
+   
+    
 }

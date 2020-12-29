@@ -15,7 +15,7 @@ public class Customer extends Station{
     static Connection c;
     static Statement s;
  
-
+    
     public void setId(int id) {
         this.id = id;
     }

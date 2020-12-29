@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class admin_DDL extends Station {
-    int id;
-    String Name;
-    int startShift;
-    int endShift;
-    static Connection c;
-    static Statement s;
+public abstract class admin_DDL extends Station implements MyInterface{
+    private int id;
+    private String Name;
+    private int startShift;
+    private int endShift;
+    private static Connection c;
+    private static Statement s;
     
     
-    void getInsert(){
+    public void getInsert(){
         try{
             c=security.getConnection();
             s = c.createStatement();
@@ -43,7 +43,7 @@ public class admin_DDL extends Station {
 }
     
     
-    void getUpdate(){
+    public void getUpdate(){
         try{
             c=security.getConnection();
             s = c.createStatement();
@@ -72,7 +72,7 @@ public class admin_DDL extends Station {
     }
 
     
-    void getDelete(){
+    public void getDelete(){
         try{
             c=security.getConnection();
             s = c.createStatement();
@@ -96,14 +96,12 @@ public class admin_DDL extends Station {
         }
     }
     
-    public static void getAllSpots()
+    public void viewAllSpots()
     {  
         int size=Station.spots.size();
         
         ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
         Collections.sort(key);  
-        ArrayList<Boolean> value= new ArrayList<>(Station.spots.values());
-
         ArrayList<String> free =new ArrayList<>();
         ArrayList<String> busy =new ArrayList<>();
         
