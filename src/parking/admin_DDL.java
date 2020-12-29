@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public abstract class admin_DDL extends Station implements MyInterface{
+public class admin_DDL extends Station {
     private int id;
     private String Name;
     private int startShift;
@@ -12,12 +12,12 @@ public abstract class admin_DDL extends Station implements MyInterface{
     private static Connection c;
     private static Statement s;
     
-    
+     Scanner input = new Scanner(System.in);
     public void getInsert(){
         try{
             c=security.getConnection();
             s = c.createStatement();
-            Scanner input = new Scanner(System.in);
+           
             System.out.println("Enter ID: ");
             id = input.nextInt();
             System.out.println("Enter name: ");
@@ -47,7 +47,6 @@ public abstract class admin_DDL extends Station implements MyInterface{
         try{
             c=security.getConnection();
             s = c.createStatement();
-            Scanner input=new Scanner(System.in);
             System.out.println("Enter ID to Update: ");
             int input1 = input.nextInt();
             System.out.println("Enter new start shift: ");
@@ -76,7 +75,6 @@ public abstract class admin_DDL extends Station implements MyInterface{
         try{
             c=security.getConnection();
             s = c.createStatement();
-            Scanner input=new Scanner(System.in);
             System.out.println("Enter ID to Delete: ");
             int input1 = input.nextInt();
             s.execute("delete from PL2 where id=('"+input1+"')");
@@ -98,9 +96,9 @@ public abstract class admin_DDL extends Station implements MyInterface{
     
     public void viewAllSpots()
     {  
-        int size=Station.spots.size();
+        int size=spots.size();
         
-        ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
+        ArrayList<String> key = new ArrayList<>(spots.keySet()); 
         Collections.sort(key);  
         ArrayList<String> free =new ArrayList<>();
         ArrayList<String> busy =new ArrayList<>();
@@ -109,7 +107,7 @@ public abstract class admin_DDL extends Station implements MyInterface{
    
         for(int i=0;i<size;i++)
         {
-            if(Station.spots.get(key.get(i)) == true)  
+            if(spots.get(key.get(i)) == true)  
             {
                  free.add(key.get(i));  
                  flagFree=1;

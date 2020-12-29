@@ -73,10 +73,10 @@ public static void createDb()
             
             for(int i=0;i<spots.size();i++)
             {
-                query="insert into totalSpots values('"+key.get(i)+"','true')";
+                query="insert into totalspots values('"+key.get(i)+"','true')";
                 st.execute(query);
             }
-                      
+            
             
         }
         catch(SQLException ex)
