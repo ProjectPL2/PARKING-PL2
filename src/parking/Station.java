@@ -3,6 +3,8 @@ package parking;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public abstract class Station {
@@ -13,6 +15,7 @@ public abstract class Station {
     protected String operatorUsername;
     private int adminId;
     private String adminUsername;
+    
     static Connection connect;  
     static Statement st;
     static String query;
@@ -50,19 +53,31 @@ public abstract class Station {
     }
     
     protected static void creatParking(int numberOfFloors,int spotsInFloor){
+        
         for (int i = 0; i < numberOfFloors; i++) {
             for (int j = 1; j <= spotsInFloor; j++) {
-                spots.put(""+(char)(i+65)+""+j,true);
+                spots.put((char)(i+65)+""+j,true);
             }
         }
     }
 
-public void createDb()
+public static void createDb()
     {
+        ArrayList<String> key = new ArrayList<>(spots.keySet()); 
+              Collections.sort(key); 
+      //  ArrayList<Boolean> value= new ArrayList<>(spots.values());
    
    try{
             connect=security.getConnection();
-            System.out.println("created");
+            st=connect.createStatement();
+            
+            for(int i=0;i<spots.size();i++)
+            {
+                query="insert into totalSpots values('"+key.get(i)+"','true')";
+                st.execute(query);
+            }
+                      
+            System.out.println("done");
         }
         catch(SQLException ex)
         {
