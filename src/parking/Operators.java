@@ -2,43 +2,20 @@ package parking;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Scanner;
 
-public class Operators {
-    private int operator_id;
-    private String operator_name;
-    protected Calendar startDate;
-    protected Calendar endDate;
 
-    public Operators(int id, String name) {
-        this.operator_id = id;
-        this.operator_name = name;
-         
-    }
+public class Operators extends Station{
 
-     public void setId(int id)
-    {
-        operator_id=id;
-    }
-    public int getId()
-    {
-        return operator_id;
-    }
-     public void setName(String name)
-    {
-        operator_name=name;
-    }
-    public String getName()
-    {
-        return operator_name;
-    }
-    
-    public void getFreeSpots(HashMap spots)
-    {
-        int size=spots.size();
+    private final Scanner input = new Scanner(System.in);
+   
+
+    public static void getFreeSpots()
+    {  
+        int size=Station.spots.size();
         
-        ArrayList<String> key = new ArrayList<>(spots.keySet()); 
-        ArrayList<Boolean> value= new ArrayList<>(spots.values());
+        ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
+        ArrayList<Boolean> value= new ArrayList<>(Station.spots.values());
 
         ArrayList<String> free =new ArrayList<>();
         
@@ -67,22 +44,42 @@ public class Operators {
            
     }
     
-    public void addCustomer(String place , Customer c){
-        this.startDate = Calendar.getInstance(); 
-        Station.addCustomer(place);
-        c.setTransactionDate(startDate);               
+    public void addCustomer(String place){
+        Customer c = new Customer();
+        Station.spots.replace(place, Boolean.FALSE);
+        System.out.print("Enter plate number : ");
+        String plateNumber = input.nextLine();
+        c.setPlateNumber(plateNumber);
+        c.setPlace(place);
+        c.setStartDate(Calendar.getInstance());
+        c.add();
     }
     
     public void removeCustomer(String place,Customer c){
-        this.endDate = Calendar.getInstance();
-        Station.removeCustomer(place);
+        Station.spots.replace(place, Boolean.TRUE);
+        c.setEndDate(Calendar.getInstance()); 
     }
     
-    public int totalParkingHours(){
-        if (endDate.get(Calendar.MINUTE) >= 30)
-            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR)+1);
+    public int totalParkingHours(Customer c){
+        if (c.getEndDate().get(Calendar.MINUTE) >= 30)
+            return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR)+1);
         else
-            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR));
+            return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR));
     }
     
+   /* public void Payment( double payed){
+        double exchange,cost=10*totalParkingHours();
+        if(payed==cost){
+            System.out.println("Payment Successfully");
+        }
+        else{
+            exchange=payed-cost;
+            System.out.println("Payment Successfully");
+            System.out.println("Entered:"+payed);
+            System.out.println("The Exchange is:"+exchange);
+        }
+        
+    }
+*/
+
 }
