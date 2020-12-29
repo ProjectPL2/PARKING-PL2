@@ -35,8 +35,7 @@ public class Customer {
     public void setPlace(String place) {
         this.place = place;
     }
-    
-    
+
     public String getPlace() {
         return place;
     }
@@ -57,6 +56,7 @@ public class Customer {
         return endDate;
     }       
     
+  
     public void getTicket(){
         System.out.println("------------------------------------------------------");
         System.out.println("|                                                    |");
@@ -71,7 +71,6 @@ public class Customer {
         System.out.println("|                                                    |");
         System.out.println("-----------------------------------------------------");
     }
-  
     public void add(){
         try {
             c = security.getConnection();

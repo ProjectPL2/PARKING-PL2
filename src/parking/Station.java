@@ -13,12 +13,10 @@ public class Station {
     protected String operatorUsername;
     private int adminId;
     private String adminUsername;
-    
-     
     static Connection connect;  
     static Statement st;
     static String query;
-    
+
     
     public void setOperatorId(int id){
         this.operatorId=id;
@@ -58,7 +56,7 @@ public class Station {
             }
         }
     }
-    
+
 public void create()
     {
    

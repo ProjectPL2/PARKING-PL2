@@ -1,18 +1,43 @@
 package parking;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+
 import java.util.Scanner;
 
-
 public class Operators extends Station{
-
+    
     private final Scanner input = new Scanner(System.in);
-   
 
-    public static void getFreeSpots()
-    {  
-        int size=Station.spots.size();
+    
+    public Operators(int id, String name) {
+        this.operatorId = id;
+        this.operatorUsername = name;
+         
+    }
+
+     public void setId(int id)
+    {
+        operatorId=id;
+    }
+    public int getId()
+    {
+        return operatorId;
+    }
+     public void setName(String name)
+    {
+        operatorUsername=name;
+    }
+    public String getName()
+    {
+        return operatorUsername;
+    }
+    
+    public void getFreeSpots(HashMap spots)
+    {
+        int size=spots.size();
         
         ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
         ArrayList<Boolean> value= new ArrayList<>(Station.spots.values());
@@ -65,6 +90,21 @@ public class Operators extends Station{
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR)+1);
         else
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR));
+
+    }
+    
+    public void Payment(Customer c, double payed){
+        double exchange,cost=10*totalParkingHours(c);
+        if(payed==cost){
+            System.out.println("Payment Successfully");
+        }
+        else{
+            exchange=payed-cost;
+            System.out.println("Payment Successfully");
+            System.out.println("Entered:"+payed);
+            System.out.println("The Exchange is:"+exchange);
+        }
+
     }
     
    /* public void Payment( double payed){

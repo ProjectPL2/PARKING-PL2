@@ -1,4 +1,3 @@
-
 package parking;
 
 import java.sql.Connection;
@@ -14,8 +13,7 @@ public class Parking {
 
     
     public static void main(String[] args) throws InterruptedException {
-        
-        
+          System.out.println("hhhhhhh");
         
        // Operators.getAllSpots();
     }
