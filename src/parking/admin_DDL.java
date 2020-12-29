@@ -1,6 +1,7 @@
 package parking;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class admin_DDL {
@@ -100,6 +101,7 @@ public class admin_DDL {
         int size=Station.spots.size();
         
         ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
+        Collections.sort(key);  
         ArrayList<Boolean> value= new ArrayList<>(Station.spots.values());
 
         ArrayList<String> free =new ArrayList<>();
@@ -109,7 +111,7 @@ public class admin_DDL {
    
         for(int i=0;i<size;i++)
         {
-            if(value.get(i) == true)  
+            if(Station.spots.get(key.get(i)) == true)  
             {
                  free.add(key.get(i));  
                  flagFree=1;
@@ -130,6 +132,7 @@ public class admin_DDL {
             {
                 System.out.print(free.get(i) + " ");
             }
+           
         }
         System.out.println("\n------------------------------------");
         if(flagBusy==0)   
@@ -139,9 +142,9 @@ public class admin_DDL {
             System.out.println("the busy spots are :");
             for (int i = 0; i < busy.size(); i++)  
             {
-                System.out.println(busy.get(i) + " ");
+                System.out.print(busy.get(i) + " ");
             }
-
+           System.out.print("\n");
         }
                       
     }

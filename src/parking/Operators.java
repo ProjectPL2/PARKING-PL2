@@ -3,6 +3,7 @@ package parking;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 
 import java.util.Scanner;
@@ -11,19 +12,20 @@ public class Operators extends Station{
     
     private final Scanner input = new Scanner(System.in);
     
-    public static void getFreeSpots(HashMap spots)
+    public static void getFreeSpots()
     {
         int size=spots.size();
         
-        ArrayList<String> key = new ArrayList<>(Station.spots.keySet()); 
-        ArrayList<Boolean> value= new ArrayList<>(Station.spots.values());
+        ArrayList<String> key = new ArrayList<>(spots.keySet()); 
+        Collections.sort(key);  
+        ArrayList<Boolean> value= new ArrayList<>(spots.values());
 
         ArrayList<String> free =new ArrayList<>();
         
         int flag =0; //to check if there are free spots or not
         for(int i=0;i<size;i++)
         {
-            if(value.get(i) == true)
+            if(spots.get(key.get(i)) == true)
             {
                 flag=1;
                 free.add(key.get(i));
@@ -48,14 +50,13 @@ public class Operators extends Station{
     public void addCustomer(String place){
         Customer c = new Customer();
         Station.spots.replace(place, Boolean.FALSE);
-        System.out.print("Enter plate number : ");
+       System.out.print("Enter plate number : ");
         String plateNumber = input.nextLine();
         c.setPlateNumber(plateNumber);
         c.setPlace(place);
         c.setStartDate(Calendar.getInstance());
         c.add();
     }
-    
     public void removeCustomer(String place,Customer c){
         Station.spots.replace(place, Boolean.TRUE);
         c.setEndDate(Calendar.getInstance()); 
