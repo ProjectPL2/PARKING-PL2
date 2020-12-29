@@ -8,5 +8,6 @@ public class Parking {
                
         Station.creatParking(3, 5);
         Customer c=new Customer();
+        Station.createDb();
     }
 }

@@ -70,14 +70,13 @@ public static void createDb()
    try{
             connect=security.getConnection();
             st=connect.createStatement();
-            
+   
             for(int i=0;i<spots.size();i++)
             {
                 query="insert into totalspots values('"+key.get(i)+"','true')";
                 st.execute(query);
             }
-            
-            
+           
         }
         catch(SQLException ex)
         {
