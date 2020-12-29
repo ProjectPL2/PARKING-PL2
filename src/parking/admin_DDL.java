@@ -7,15 +7,13 @@ public class admin_DDL {
     String Name;
     int startShift;
     int endShift;
-    
-    admin_DDL(){}
-    
     static Connection c;
     static Statement s;
+    
+    
     void getInsert(){
-            security c1=new security();
         try{
-            c=c1.getConnection();
+            c=security.getConnection();
             s = c.createStatement();
             Scanner input = new Scanner(System.in);
             System.out.println("Enter ID: ");
@@ -44,9 +42,8 @@ public class admin_DDL {
     
     
     void getUpdate(){
-            security c1=new security();
         try{
-            c=c1.getConnection();
+            c=security.getConnection();
             s = c.createStatement();
             Scanner input=new Scanner(System.in);
             System.out.println("Enter ID to Update: ");
@@ -74,26 +71,25 @@ public class admin_DDL {
 
     
     void getDelete(){
-            security c1=new security();
         try{
-            c=c1.getConnection();
+            c=security.getConnection();
             s = c.createStatement();
-        Scanner input=new Scanner(System.in);
-        System.out.println("Enter ID to Delete: ");
-        int input1 = input.nextInt();
-        s.execute("delete from PL2 where id=('"+input1+"')");
-        System.out.println("DELETED");
-            }
+            Scanner input=new Scanner(System.in);
+            System.out.println("Enter ID to Delete: ");
+            int input1 = input.nextInt();
+            s.execute("delete from PL2 where id=('"+input1+"')");
+            System.out.println("DELETED");
+        }
         catch(SQLException ex){
-        System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         } 
         finally{
-        try{
-            c.close();
-            s.close();
+            try{
+                c.close();
+                s.close();
             }
-        catch(SQLException ex){
-        System.out.println(ex.getMessage());
+            catch(SQLException ex){
+                System.out.println(ex.getMessage());
             }
         }
     }
