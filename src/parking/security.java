@@ -7,9 +7,10 @@ import java.sql.SQLException;
 public class security {
     private final String user="root";
     private final String password="";
-    private final String uri="jdbc:mysql://localhost/employee";
-    public Connection con() throws SQLException
+    private final String url="jdbc:mysql://localhost/employee";
+    
+    public Connection getConnection() throws SQLException
     {
-        return DriverManager.getConnection(uri,user,password);
+        return DriverManager.getConnection(url,user,password);
     }
 }
