@@ -57,7 +57,7 @@ public class Station {
         }
     }
 
-public void create()
+public void createDb()
     {
    
    try{

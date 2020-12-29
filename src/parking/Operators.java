@@ -10,32 +10,8 @@ import java.util.Scanner;
 public class Operators extends Station{
     
     private final Scanner input = new Scanner(System.in);
-
     
-    public Operators(int id, String name) {
-        this.operatorId = id;
-        this.operatorUsername = name;
-         
-    }
-
-     public void setId(int id)
-    {
-        operatorId=id;
-    }
-    public int getId()
-    {
-        return operatorId;
-    }
-     public void setName(String name)
-    {
-        operatorUsername=name;
-    }
-    public String getName()
-    {
-        return operatorUsername;
-    }
-    
-    public void getFreeSpots(HashMap spots)
+    public static void getFreeSpots(HashMap spots)
     {
         int size=spots.size();
         

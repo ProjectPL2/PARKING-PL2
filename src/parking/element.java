@@ -1,6 +1,4 @@
-
 package parking;
-
 
 public class element {
     int id;
