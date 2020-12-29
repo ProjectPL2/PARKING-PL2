@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-public class Station {
+public abstract class Station {
     
     
     public static final HashMap<String,Boolean> spots = new HashMap<>();

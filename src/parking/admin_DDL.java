@@ -3,7 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class admin_DDL {
+public class admin_DDL extends Station {
     int id;
     String Name;
     int startShift;

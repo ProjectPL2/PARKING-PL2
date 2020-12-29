@@ -6,15 +6,15 @@ import java.sql.Statement;
 import java.util.Calendar;
 
 
-public class Customer {
- private int id;
+public class Customer extends Station{
+    private int id;
     private String plateNumber;
     private String place;
     private Calendar startDate;
     private Calendar endDate;
     static Connection c;
     static Statement s;
-    
+ 
 
     public void setId(int id) {
         this.id = id;
@@ -57,6 +57,7 @@ public class Customer {
     }       
     
   
+
     public void getTicket(){
         System.out.println("------------------------------------------------------");
         System.out.println("|                                                    |");
@@ -71,6 +72,7 @@ public class Customer {
         System.out.println("|                                                    |");
         System.out.println("-----------------------------------------------------");
     }
+
     public void add(){
         try {
             c = security.getConnection();
@@ -82,13 +84,13 @@ public class Customer {
             System.out.println(ex.getMessage());
         }
     }
-//UPDATE info SET ENDDATEH=,ENDDATEM= WHERE 1  
-    public void remve(){
+
+    public void remove(){
         try {
             c = security.getConnection();
             s = c.createStatement();
-            s.executeUpdate("UPDATE info SET ENDDATEH = "+this.startDate.get(Calendar.HOUR_OF_DAY)+
-                            ",ENDDATEM="+ this.startDate.get(Calendar.HOUR_OF_DAY)+" WHERE id = " + this.id);
+            s.executeUpdate("UPDATE info SET ENDDATEH = "+this.endDate.get(Calendar.HOUR_OF_DAY)+
+                            ",ENDDATEM="+ this.endDate.get(Calendar.HOUR_OF_DAY)+" WHERE id = " + this.id);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

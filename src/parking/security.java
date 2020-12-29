@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public  class security {
-    private static final String user="root";
-    private static final String password="";
-    private static final String url="jdbc:mysql://localhost/stp11";
+    private static final String USER="root";
+    private static final String PASSWORD="";
+    private static final String URL="jdbc:mysql://localhost/stp11";
     
     static Connection getConnection() throws SQLException
     {
-        return DriverManager.getConnection(url,user,password);
+        return DriverManager.getConnection(URL,USER,PASSWORD);
     }
 
 }

@@ -1,17 +1,20 @@
 package parking;
 
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-
 import java.util.Scanner;
 
-public class Operators extends Station{
+public  class Operators extends Station implements MyInterface{
     
     private final Scanner input = new Scanner(System.in);
+    static Connection con;
+    static Statement s;
     
-    public static void getFreeSpots(HashMap spots)
+    @Override
+    public  void getFreeSpots()
     {
         int size=spots.size();
         
@@ -53,14 +56,32 @@ public class Operators extends Station{
         c.setPlateNumber(plateNumber);
         c.setPlace(place);
         c.setStartDate(Calendar.getInstance());
-        c.add();
+        /*try {
+            con = security.getConnection();
+            s = con.createStatement();
+            s.executeUpdate("INSERT INTO info (PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
+                    "VALUES ('"+plateNumber+"','"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
+                    "','"+Calendar.getInstance().get(Calendar.MINUTE)+"','"+place+")");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }*/
     }
     
+    @Override
     public void removeCustomer(String place,Customer c){
         Station.spots.replace(place, Boolean.TRUE);
         c.setEndDate(Calendar.getInstance()); 
+        /*try {
+            con = security.getConnection();
+            s = con.createStatement();
+            s.executeUpdate("UPDATE info SET ENDDATEH = "+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
+                            ",ENDDATEM="+ Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+" WHERE id = 1 ");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }*/
     }
     
+    @Override
     public int totalParkingHours(Customer c){
         if (c.getEndDate().get(Calendar.MINUTE) >= 30)
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR)+1);
@@ -69,6 +90,7 @@ public class Operators extends Station{
 
     }
     
+    @Override
     public void Payment(Customer c, double payed){
         double exchange,cost=10*totalParkingHours(c);
         if(payed==cost){
@@ -82,20 +104,4 @@ public class Operators extends Station{
         }
 
     }
-    
-   /* public void Payment( double payed){
-        double exchange,cost=10*totalParkingHours();
-        if(payed==cost){
-            System.out.println("Payment Successfully");
-        }
-        else{
-            exchange=payed-cost;
-            System.out.println("Payment Successfully");
-            System.out.println("Entered:"+payed);
-            System.out.println("The Exchange is:"+exchange);
-        }
-        
-    }
-*/
-
 }
