@@ -3,12 +3,13 @@ package parking;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Scanner;
 
-public abstract class Operators extends admin_DDL implements MyInterface{
+public class Operators extends Station{
     
     
     private final Scanner input = new Scanner(System.in);
@@ -50,13 +51,13 @@ public abstract class Operators extends admin_DDL implements MyInterface{
     
     public void addCustomer(String place){
         Customer c = new Customer();
-        Station.spots.replace(place, Boolean.FALSE);
+        spots.replace(place, Boolean.FALSE);
        System.out.print("Enter plate number : ");
         String plateNumber = input.nextLine();
         c.setPlateNumber(plateNumber);
         c.setPlace(place);
         c.setStartDate(Calendar.getInstance());
-        /*try {
+        try {
             con = security.getConnection();
             s = con.createStatement();
             s.executeUpdate("INSERT INTO info (PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
@@ -64,20 +65,21 @@ public abstract class Operators extends admin_DDL implements MyInterface{
                     "','"+Calendar.getInstance().get(Calendar.MINUTE)+"','"+place+")");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-        }*/
+        }
     }
 
     public void removeCustomer(String place,Customer c){
-        Station.spots.replace(place, Boolean.TRUE);
+        spots.replace(place, Boolean.TRUE);
         c.setEndDate(Calendar.getInstance()); 
-        /*try {
+        try {
             con = security.getConnection();
             s = con.createStatement();
             s.executeUpdate("UPDATE info SET ENDDATEH = "+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
                             ",ENDDATEM="+ Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+" WHERE id = 1 ");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-        }*/
+        }
+              
     }
     
     public int totalParkingHours(Customer c){

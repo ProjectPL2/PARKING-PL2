@@ -77,7 +77,7 @@ public static void createDb()
                 st.execute(query);
             }
                       
-            System.out.println("done");
+            
         }
         catch(SQLException ex)
         {
