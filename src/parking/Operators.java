@@ -85,4 +85,18 @@ public class Operators {
             return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR));
     }
     
+    public void Payment( double payed){
+        double exchange,cost=10*totalParkingHours();
+        if(payed==cost){
+            System.out.println("Payment Successfully");
+        }
+        else{
+            exchange=payed-cost;
+            System.out.println("Payment Successfully");
+            System.out.println("Entered:"+payed);
+            System.out.println("The Exchange is:"+exchange);
+        }
+        
+    }
+    
 }
