@@ -1,10 +1,30 @@
 CREATE TABLE customers(
-	id_operator int FOREIGN KEY REFERENCES operators(id),
+	id_operator int,
     id_customer int,
     plate_number varchar(10),
     place varchar(5),
     start_dateH int,
     start_dateM int,
     end_dateH int,
-    end_dateM int
+    end_dateM int,
+    CONSTRAINT FK_PersonOrder FOREIGN KEY (id_operator)
+    REFERENCES operators(id)
+)
+
+CREATE TABLE operators(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    username varchar(30),
+    start_shift int ,
+    end_shift int 
+)
+alter table operators AUTO_INCREMENT=2021
+
+CREATE TABLE admin(
+	id_admin int,
+    username_admin varchar(30) 
+)
+
+CREATE TABLE totalspots(
+    place varchar(10),
+    state varchar(5)
 )
