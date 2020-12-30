@@ -28,8 +28,7 @@ public class Operators extends Station{
                 flag=1;
                 free.add(key.get(i));
             }        
-        }
-        
+        }   
         if(flag==0)
             System.out.println("sorry there is no free spot");
         else
@@ -46,23 +45,31 @@ public class Operators extends Station{
     }
     
     public void addCustomer(String place){
-        Customer c = new Customer();
-        spots.replace(place, Boolean.FALSE);
-        c.setId(getCustomerId());
-        System.out.print("Enter plate number : ");
-        String plateNumber = input.nextLine();
-        c.setPlateNumber(plateNumber);
-        c.setPlace(place);
-        c.setStartDate(Calendar.getInstance());
         try {
             connect = security.getConnection();
-            query = "INSERT INTO info (ID,PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
-                    "VALUES ('"+getCustomerId()+"','"+plateNumber+"','"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
-                    "','"+Calendar.getInstance().get(Calendar.MINUTE)+"','"+place+"')";
+            Customer c = new Customer();
+            spots.replace(place, Boolean.FALSE);
+            c.setId(getCustomerId());
+            System.out.print("Enter plate number : ");
+            String plateNumber = input.nextLine();
+            c.setPlateNumber(plateNumber);
+            c.setPlace(place);
+            c.setStartDate(Calendar.getInstance());      
+            query = "INSERT INTO customers (id_operator,id_customer,plate_number,place,start_dateH,start_dateM) "+
+                    "VALUES ('"+operatorId+"','"+getCustomerId()+"','"+plateNumber+"','"+place+"','"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
+                    "','"+Calendar.getInstance().get(Calendar.MINUTE)+"')";
             st = connect.prepareStatement(query);
-            st.executeUpdate(query);
+            st.executeQuery(query);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        }
+        finally{
+            try {
+                connect.close();
+              
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
         }
     }
     
@@ -79,8 +86,7 @@ public class Operators extends Station{
     private int getCustomerId(){
         int id = (int)(1+Math.random()*Station.allSpots);      
         try {
-            connect = security.getConnection();
-            query = "select id from customer where id = '" + id+"'";
+            query = "select id_customer from customers where id_customer = '" + id+"'";
             st = connect.prepareStatement(query);
             if(st.execute(query))
                 return getCustomerId();
@@ -90,6 +96,6 @@ public class Operators extends Station{
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return 0;
-        }     
+        }
     }
 }

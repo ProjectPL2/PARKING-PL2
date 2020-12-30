@@ -1,7 +1,5 @@
 package parking;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
@@ -88,32 +86,4 @@ public class Customer extends Station{
             System.out.println("The Exchange is:"+exchange);
         }
     }
-    
-    public void report(Operators o, Customer e){    
-        try {
-            ArrayList<viewReport> list=new ArrayList();
-            connect=security.getConnection();
-            query="select operators.id,operators.username,operators.start_shift,operators.end_shift,"
-                    + "customers.id_customer,customers.username_customer from customers join operators "
-                    + "on customers.id_operator=operators.id";
-            st=connect.prepareStatement(query);
-            r=st.executeQuery(query);
-            while(r.next()){
-                list.add(new viewReport(r.getInt("id"),r.getString("username"),
-                r.getInt("start_shift"),r.getInt("end_shift"),r.getInt("id_customer"),
-                r.getString("username_customer"),10*o.totalParkingHours(e)));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        finally{
-            try{
-                st.close();
-                connect.close();
-                r.close();
-            } catch(SQLException ex){
-                System.out.println(ex.getMessage());
-            }
-        }
-    }    
 }

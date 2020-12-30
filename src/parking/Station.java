@@ -79,8 +79,6 @@ public abstract class Station {
                 key.add((char)(i+65)+""+j);
             }
         }
-//        key = new ArrayList<>(spots.keySet());
-//        Collections.sort(key);
     }
 
     public static void createDb()
@@ -115,14 +113,12 @@ public abstract class Station {
     public void addPlace(String place){
         try{
             connect=security.getConnection();
-            st=connect.createStatement();
-   
             for(int i=0;i<spots.size();i++)
             {
                 query="insert into totalspots values('"+key.get(i)+"','true')";
+                st=connect.prepareStatement(query);
                 st.execute(query);
             }
-           
         }
         catch(SQLException ex)
         {

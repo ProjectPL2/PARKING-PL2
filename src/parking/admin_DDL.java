@@ -149,29 +149,66 @@ public class admin_DDL extends Station {
         try{
             ArrayList<element> list=new ArrayList();
             connect=security.getConnection();
-            query = "select *from PL2";
+            query = "select username,id_customer,plate_number,place,start_dateH,start_dateM from customers"
+                    + "join totalspots on totalspots.place = customers.place"
+                    + "where totalspots.state = 'false'";
             st = connect.prepareStatement(query);
             r=st.executeQuery(query);
             while(r.next()){
-                list.add(new element(r.getInt("id"),r.getString("Name"),r.getInt("startShift"),r.getInt("endShift")));
+                list.add(new element(r.getString("username"),r.getInt("id_customer"),r.getString("plate_number")
+                                    ,r.getString("place"),r.getInt("start_dateH"),r.getInt("start_dateM")));
             }
             for(int i=0;i<list.size();i++)
             {
-                System.out.print(list.get(i).id+"   ");
-                System.out.print(list.get(i).Name);
+                System.out.print(list.get(i).username+"|" + list.get(i).id_customer+"|"+list.get(i).plate_number+"|"+
+                                 list.get(i).place+"|" +list.get(i).start_dateH+"|"+list.get(i).start_dateM+"|"  );
             }
         }
         catch(SQLException ex){
-        System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage());
         } 
         finally{
         try{
             connect.close();
             st.close();
-            r.close();
         }
         catch(SQLException ex){
         System.out.println(ex.getMessage());
+            }
+        }
+    }
+    public void viewReportPayment(Operators o, Customer e){
+     
+        try {
+            ArrayList<viewReport> list=new ArrayList();
+            connect=security.getConnection();
+            query="select operators.id,operators.username,operators.start_shift,operators.end_shift,"
+                    + "customers.id_customer,customers.plate_number from customers join operators "
+                    + "on customers.id_operator=operators.id";
+            st=connect.prepareStatement(query);
+            r=st.executeQuery(query);
+            while(r.next()){
+                list.add(new viewReport(r.getInt("id"),r.getString("username"),r.getString("plate_number"),
+                    r.getInt("start_shift"),r.getInt("end_shift"),r.getInt("id_customer"),10*o.totalParkingHours(e)));          
+             }
+             System.out.println("                                |------------------------------------|");
+             System.out.println("                                |  View Shifts Report With Payement  |                     ");
+             System.out.println("                                |------------------------------------|");
+             for(int i=0;i<list.size();i++){
+                 System.out.println("Customer id is: "+list.get(i).id_customer+"\n"+"Customer Plate number: "+list.get(i).plate_number
+                         +"\n"+"The Payment is :"+list.get(i).payment+"\n"+"By Username Operator: "+list.get(i).username_operator+"\n"+"And Operator id: "+list.get(i).id_operator
+                         +"\n"+"His/Her Start Shift is : "+list.get(i).start_shift +"\n"+"His/Her End Shift is : "+list.get(i).end_shift);
+             }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            try{
+                st.close();
+                connect.close();
+                r.close();
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
             }
         }
     }

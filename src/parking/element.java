@@ -1,17 +1,21 @@
 package parking;
 
 public class element {
-    int id;
-    String Name;
-    int startShift;
-    int endShift;
-    
-    public element(int a1,String a2,int a3,int a4)
-    {
-        this.id=a1;
-        this.Name=a2;
-        this.startShift=a3;
-        this.endShift=a4;
+ 
+    public String username;
+    public int id_customer;
+    public String plate_number;
+    public String place;
+    public int start_dateH;
+    public int start_dateM;
 
+    public element(String username,int id_customer, String plate_number, String place, int start_dateH, int start_dateM) {
+        this.username = username;
+        this.id_customer = id_customer;
+        this.plate_number = plate_number;
+        this.place = place;
+        this.start_dateH = start_dateH;
+        this.start_dateM = start_dateM;
     }
+ 
 }
