@@ -1,19 +1,40 @@
 package parking;
 
+import java.util.Scanner;
 
-public class Parking  {
+
+public class Parking extends security{
 
     
     public static void main(String[] args){
         
-               admin_DDL d=new admin_DDL();
-               Operators o =new Operators();
-               //d.insertOperator();
-               //Station.createDb();
-               o.addCustomer("A80");
-//               o.addCustomer("A7");
-//               o.addCustomer("C8");
-//               d.viewParkedCar();
-
+        
+        Operators operator = newOperator();
+        operator.addCustomer("A1");
+//        operator.addCustomer("B1");
+//        operator.addCustomer("A3");
+//        operator.addCustomer("B7");
+//        operator.addCustomer("A5");
+//        operator.addCustomer("C1");
+//        operator.addCustomer("C2");
+//        operator.addCustomer("C5");
+    }
+    
+    public static admin_DDL newAdmin(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your id : ");  
+        int id = input.nextInt();
+        System.out.println("Enter your username : ");
+        String usernman = input.next();
+        return logInAdmin(id,usernman);
+    }
+    
+    public static Operators newOperator(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your id : ");  
+        int id = input.nextInt();
+        System.out.println("Enter your username : ");
+        String usernman = input.next();
+        return logInOperator(id,usernman);
     }
 }

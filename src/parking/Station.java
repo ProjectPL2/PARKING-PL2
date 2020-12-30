@@ -24,7 +24,7 @@ public abstract class Station {
     static Statement st;
     static String query;
     static ResultSet r;
-    private static ArrayList<String> key = new ArrayList(); 
+    private static final ArrayList<String> key = new ArrayList(); 
     
     public void setOperatorId(int id){
         this.operatorId=id;
@@ -79,9 +79,10 @@ public abstract class Station {
                 key.add((char)(i+65)+""+j);
             }
         }
+        createDb();
     }
 
-    public static void createDb()
+    private static void createDb()
     {
         try{
             connect=security.getConnection();
@@ -90,8 +91,7 @@ public abstract class Station {
                 query="insert into totalspots values('"+key.get(i)+"','true')";
                 st=connect.prepareStatement(query);
                 st.execute(query);
-            }
-           
+            } 
         }
         catch(SQLException ex)
         {
@@ -101,7 +101,6 @@ public abstract class Station {
             try{
                 connect.close();
                 st.close();
-                
             }
             catch(SQLException ex)
             {
@@ -128,7 +127,6 @@ public abstract class Station {
             try{
                 connect.close();
                 st.close();
-                
             }
             catch(SQLException ex)
             {

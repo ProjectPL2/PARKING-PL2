@@ -46,7 +46,7 @@ public class admin_DDL extends Station {
             setStartShift(input.nextInt());
             System.out.println("Enter new end shift: ");
             setEndShift(input.nextInt());
-            query = "update PL2 set startShift ='"+getStartShift()+"',endShift ='"+getEndShift()+"' where id=('"+id+"')";
+            query = "update operators set start_shift ='"+getStartShift()+"',end_shift ='"+getEndShift()+"' where id=('"+id+"')";
             st = connect.prepareStatement(query);
             st.execute(query);
             System.out.println("UPDATED");
@@ -70,7 +70,7 @@ public class admin_DDL extends Station {
             connect=security.getConnection();           
             System.out.println("Enter ID to Delete: ");
             int id = input.nextInt();
-            query = "delete from PL2 where id=('"+id+"')";
+            query = "delete from operators where id=('"+id+"')";
             st = connect.prepareStatement(query);
             st.execute(query);
             System.out.println("DELETED");
@@ -95,10 +95,8 @@ public class admin_DDL extends Station {
         ArrayList<String> key = new ArrayList<>(spots.keySet()); 
         Collections.sort(key);  
         ArrayList<String> free =new ArrayList<>();
-        ArrayList<String> busy =new ArrayList<>();
-        
+        ArrayList<String> busy =new ArrayList<>();       
         int flagFree=0,flagBusy=0;
-   
         for(int i=0;i<size;i++)
         {
             if(spots.get(key.get(i)) == true)  
@@ -113,10 +111,10 @@ public class admin_DDL extends Station {
             }
         }        
         if(flagFree==0)
-            System.out.println("there are no free spots");
+            System.out.println("There are no free spots.");
         else
         {
-            System.out.println("the free spots are :");
+            System.out.println("The free spots are :");
             for (int i = 0; i < free.size(); i++)  
             {
                 System.out.print(free.get(i) + " ");
@@ -149,14 +147,14 @@ public class admin_DDL extends Station {
         try{
             ArrayList<element> list=new ArrayList();
             connect=security.getConnection();
-            query = "select username,id_customer,plate_number,place,start_dateH,start_dateM from customers"
+            query = "select username,id_customer,plate_number,customers.place,start_dateH,start_dateM from customers"
                     + "join totalspots on totalspots.place = customers.place"
                     + "where totalspots.state = 'false'";
             st = connect.prepareStatement(query);
             r=st.executeQuery(query);
             while(r.next()){
                 list.add(new element(r.getString("username"),r.getInt("id_customer"),r.getString("plate_number")
-                                    ,r.getString("place"),r.getInt("start_dateH"),r.getInt("start_dateM")));
+                                    ,r.getString("customers.place"),r.getInt("start_dateH"),r.getInt("start_dateM")));
             }
             for(int i=0;i<list.size();i++)
             {
@@ -183,21 +181,23 @@ public class admin_DDL extends Station {
             ArrayList<viewReport> list=new ArrayList();
             connect=security.getConnection();
             query="select operators.id,operators.username,operators.start_shift,operators.end_shift,"
-                    + "customers.id_customer,customers.plate_number from customers join operators "
+                    + "customers.id_customer,customers.plate_number,customers.cost from customers join operators "
                     + "on customers.id_operator=operators.id";
             st=connect.prepareStatement(query);
             r=st.executeQuery(query);
             while(r.next()){
-                list.add(new viewReport(r.getInt("id"),r.getString("username"),r.getString("plate_number"),
-                    r.getInt("start_shift"),r.getInt("end_shift"),r.getInt("id_customer"),10*o.totalParkingHours(e)));          
+                list.add(new viewReport(r.getInt("id"),r.getString("username"),r.getInt("start_shift"),
+                        r.getInt("end_shift"),r.getInt("id_customer"),r.getString("plate_number"),
+                        r.getInt("cost")));          
              }
              System.out.println("                                |------------------------------------|");
              System.out.println("                                |  View Shifts Report With Payement  |                     ");
              System.out.println("                                |------------------------------------|");
              for(int i=0;i<list.size();i++){
                  System.out.println("Customer id is: "+list.get(i).id_customer+"\n"+"Customer Plate number: "+list.get(i).plate_number
-                         +"\n"+"The Payment is :"+list.get(i).payment+"\n"+"By Username Operator: "+list.get(i).username_operator+"\n"+"And Operator id: "+list.get(i).id_operator
-                         +"\n"+"His/Her Start Shift is : "+list.get(i).start_shift +"\n"+"His/Her End Shift is : "+list.get(i).end_shift);
+                         +"\n"+"The Payment is :"+list.get(i).cost+"\n"+"By Username Operator: "+list.get(i).username_operator+
+                         "\n"+"And Operator id: "+list.get(i).id_operator+"\n"+"His/Her Start Shift is : "+
+                         list.get(i).start_shift +"\n"+"His/Her End Shift is : "+list.get(i).end_shift);
              }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
