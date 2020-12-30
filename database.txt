@@ -1,0 +1,10 @@
+CREATE TABLE customers(
+	id_operator int FOREIGN KEY REFERENCES operators(id),
+    id_customer int,
+    plate_number varchar(10),
+    place varchar(5),
+    start_dateH int,
+    start_dateM int,
+    end_dateH int,
+    end_dateM int
+)

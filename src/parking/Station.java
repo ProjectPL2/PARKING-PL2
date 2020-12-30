@@ -1,28 +1,30 @@
 package parking;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public abstract class Station {
     
     
-    public static final HashMap<String,Boolean> spots = new HashMap<>();
+    public static final HashMap<String,Boolean> spots = new HashMap();
     protected int operatorId;
     protected String operatorUsername;
     private int adminId;
     private String adminUsername;
     private int startShift;
     private int endShift;
-    static Connection connect;  
+    static Connection connect;
+    static int numberOfFloors;
+    static int numberOfSpots;
+    static int allSpots;
     static Statement st;
     static String query;
-    private static ArrayList<String> key; 
-    
-
+    static ResultSet r;
+    private static ArrayList<String> key = new ArrayList(); 
     
     public void setOperatorId(int id){
         this.operatorId=id;
@@ -74,21 +76,21 @@ public abstract class Station {
         for (int i = 0; i < numberOfFloors; i++) {
             for (int j = 1; j <= spotsInFloor; j++) {
                 spots.put((char)(i+65)+""+j,true);
+                key.add((char)(i+65)+""+j);
             }
         }
-        key = new ArrayList<>(spots.keySet());
-        Collections.sort(key);
+//        key = new ArrayList<>(spots.keySet());
+//        Collections.sort(key);
     }
 
     public static void createDb()
     {
         try{
             connect=security.getConnection();
-            st=connect.createStatement();
-   
             for(int i=0;i<spots.size();i++)
             {
                 query="insert into totalspots values('"+key.get(i)+"','true')";
+                st=connect.prepareStatement(query);
                 st.execute(query);
             }
            

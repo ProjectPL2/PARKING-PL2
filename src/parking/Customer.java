@@ -1,8 +1,7 @@
 package parking;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,9 +13,7 @@ public class Customer extends Station{
     private String place;
     private Calendar startDate;
     private Calendar endDate;
-    static Connection c;
-    static Statement s;
-    static String query;
+
     
      Scanner input =new Scanner(System.in).useLocale(Locale.US);
     
@@ -78,38 +75,45 @@ public class Customer extends Station{
     }
    
     public void payment(Customer c){
- 
         Operators o=new Operators();
         double exchange,payed,cost=10*o.totalParkingHours(c);
-        System.out.println("Enter hours' cost");
+        System.out.println("Enter the Payment: ");
         payed=input.nextDouble();
         if(payed==cost){
             System.out.println("Payment Successfully");
-        }
-        else{
+        }else{
             exchange=payed-cost;
             System.out.println("Payment Successfully");
             System.out.println("Entered:"+payed);
             System.out.println("The Exchange is:"+exchange);
         }
-
     }
-    public void insert(Operators o, Customer e,admin_DDL x){
-     
+    
+    public void report(Operators o, Customer e){    
         try {
-          
-            c=security.getConnection();
-            s = c.createStatement();
-            query="insert into old_customer values('"+o.getOperatorUsername()+"','"+getOperatorId()+"',"
-            + "'"+getStartShift()+"','"+getEndShift()+"','"+e.getId()+"','"+e.getPlateNumber()+"'"
-             + ",'"+10*o.totalParkingHours(e)+"')";
-            s.execute(query);
-            System.out.println("Done");
-        } catch (SQLException EX) {
-            System.out.println(EX.getMessage());
+            ArrayList<viewReport> list=new ArrayList();
+            connect=security.getConnection();
+            query="select operators.id,operators.username,operators.start_shift,operators.end_shift,"
+                    + "customers.id_customer,customers.username_customer from customers join operators "
+                    + "on customers.id_operator=operators.id";
+            st=connect.prepareStatement(query);
+            r=st.executeQuery(query);
+            while(r.next()){
+                list.add(new viewReport(r.getInt("id"),r.getString("username"),
+                r.getInt("start_shift"),r.getInt("end_shift"),r.getInt("id_customer"),
+                r.getString("username_customer"),10*o.totalParkingHours(e)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-    
-}
-
-    
+        finally{
+            try{
+                st.close();
+                connect.close();
+                r.close();
+            } catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+    }    
 }

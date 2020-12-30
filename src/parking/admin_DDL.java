@@ -6,59 +6,57 @@ import java.util.Scanner;
 
 public class admin_DDL extends Station {
    
-    private static Connection c;
-    private static Statement s;
     
-     Scanner input = new Scanner(System.in);
-    public void getInsert(){
+    Scanner input = new Scanner(System.in);
+    public void insertOperator(){
         try{
-            c=security.getConnection();
-            s = c.createStatement();
-            //System.out.println("Enter ID: ");
-            //setOperatorId(input.nextInt());
+            connect=security.getConnection();           
             System.out.println("Enter name: ");
             setOperatorUsername(input.next());
             System.out.println("Enter Start work shift: ");
             setStartShift(input.nextInt());
             System.out.println("Enter End work shift: ");
             setEndShift(input.nextInt());
-            s.execute("insert into operators (id ,name ,startShift ,endShift) values ('1','"+getOperatorUsername()+"','"+ getStartShift()+"','"+ getEndShift()+"')");
+            query = "insert into operators (username ,start_shift ,end_shift) values ('"+getOperatorUsername()+
+                    "','"+ getStartShift()+"','"+ getEndShift()+"')";
+            st = connect.prepareStatement(query);
+            st.execute(query);
             System.out.println("INSERTED");
         } catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
         finally{
-        try{
-            c.close();
-            s.close();
+            try{
+                connect.close();
+                st.close();
+                }
+            catch(SQLException ex){
+                System.out.println(ex.getMessage());
             }
-        catch(SQLException ex){
-            System.out.println(ex.getMessage());
         }
     }
-}
     
     
-    public void getUpdate(){
+    public void updateOperator(){
         try{
-            c=security.getConnection();
-            s = c.createStatement();
+            connect=security.getConnection();
             System.out.println("Enter ID to Update: ");
             int id = input.nextInt();
             System.out.println("Enter new start shift: ");
             setStartShift(input.nextInt());
             System.out.println("Enter new end shift: ");
             setEndShift(input.nextInt());
-            s.execute("update PL2 set startShift ='"+getStartShift()+"' where id=('"+id+"')");
-            s.execute("update PL2 set endShift ='"+getEndShift()+"' where id=('"+id+"')");
+            query = "update PL2 set startShift ='"+getStartShift()+"',endShift ='"+getEndShift()+"' where id=('"+id+"')";
+            st = connect.prepareStatement(query);
+            st.execute(query);
             System.out.println("UPDATED");
         } catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
         finally{
             try{
-                c.close();
-                s.close();
+                connect.close();
+                st.close();
                 }
             catch(SQLException ex){
                 System.out.println(ex.getMessage());
@@ -67,13 +65,14 @@ public class admin_DDL extends Station {
     }
 
     
-    public void getDelete(){
+    public void deleteOperator(){
         try{
-            c=security.getConnection();
-            s = c.createStatement();
+            connect=security.getConnection();           
             System.out.println("Enter ID to Delete: ");
             int id = input.nextInt();
-            s.execute("delete from PL2 where id=('"+id+"')");
+            query = "delete from PL2 where id=('"+id+"')";
+            st = connect.prepareStatement(query);
+            st.execute(query);
             System.out.println("DELETED");
         }
         catch(SQLException ex){
@@ -81,8 +80,8 @@ public class admin_DDL extends Station {
         } 
         finally{
             try{
-                c.close();
-                s.close();
+                connect.close();
+                st.close();
             }
             catch(SQLException ex){
                 System.out.println(ex.getMessage());
@@ -92,8 +91,7 @@ public class admin_DDL extends Station {
     
     public void viewAllSpots()
     {  
-        int size=spots.size();
-        
+        int size=spots.size();       
         ArrayList<String> key = new ArrayList<>(spots.keySet()); 
         Collections.sort(key);  
         ArrayList<String> free =new ArrayList<>();
@@ -113,8 +111,7 @@ public class admin_DDL extends Station {
                 busy.add(key.get(i));
                 flagBusy=1;
             }
-        }
-        
+        }        
         if(flagFree==0)
             System.out.println("there are no free spots");
         else
@@ -123,8 +120,7 @@ public class admin_DDL extends Station {
             for (int i = 0; i < free.size(); i++)  
             {
                 System.out.print(free.get(i) + " ");
-            }
-           
+            }          
         }
         System.out.println("\n------------------------------------");
         if(flagBusy==0)   
@@ -137,16 +133,47 @@ public class admin_DDL extends Station {
                 System.out.print(busy.get(i) + " ");
             }
            System.out.print("\n");
-        }
-                      
+        }                     
     }
-    public void addSpots(){
-        int numberOfFloors,numberOfSpots;
+    
+    public void addSpots(){       
         System.out.println("Enter number of floors");
-        numberOfFloors=input.nextInt();
+        Station.numberOfFloors=input.nextInt();
         System.out.println("Enter number of spots");
-        numberOfSpots=input.nextInt();
+        Station.numberOfSpots=input.nextInt();
+        Station.allSpots = Station.numberOfFloors * Station.numberOfSpots;
         createParking(numberOfFloors,numberOfSpots);
+    }
+    
+    void viewParkedCar(){
+        try{
+            ArrayList<element> list=new ArrayList();
+            connect=security.getConnection();
+            query = "select *from PL2";
+            st = connect.prepareStatement(query);
+            r=st.executeQuery(query);
+            while(r.next()){
+                list.add(new element(r.getInt("id"),r.getString("Name"),r.getInt("startShift"),r.getInt("endShift")));
+            }
+            for(int i=0;i<list.size();i++)
+            {
+                System.out.print(list.get(i).id+"   ");
+                System.out.print(list.get(i).Name);
+            }
+        }
+        catch(SQLException ex){
+        System.out.println(ex.getMessage());
+        } 
+        finally{
+        try{
+            connect.close();
+            st.close();
+            r.close();
+        }
+        catch(SQLException ex){
+        System.out.println(ex.getMessage());
+            }
+        }
     }
  
 }

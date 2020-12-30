@@ -1,9 +1,7 @@
 package parking;
 
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -13,8 +11,6 @@ public class Operators extends Station{
     
     
     private final Scanner input = new Scanner(System.in);
-    static Connection con;
-    static Statement s;
     
     
     public void getFreeSpots(){
@@ -52,35 +48,25 @@ public class Operators extends Station{
     public void addCustomer(String place){
         Customer c = new Customer();
         spots.replace(place, Boolean.FALSE);
+        c.setId(getCustomerId());
         System.out.print("Enter plate number : ");
         String plateNumber = input.nextLine();
         c.setPlateNumber(plateNumber);
         c.setPlace(place);
         c.setStartDate(Calendar.getInstance());
         try {
-            con = security.getConnection();
-            s = con.createStatement();
-            s.executeUpdate("INSERT INTO info (PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
-                    "VALUES ('"+plateNumber+"','"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
-                    "','"+Calendar.getInstance().get(Calendar.MINUTE)+"','"+place+")");
+            connect = security.getConnection();
+            query = "INSERT INTO info (ID,PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
+                    "VALUES ('"+getCustomerId()+"','"+plateNumber+"','"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
+                    "','"+Calendar.getInstance().get(Calendar.MINUTE)+"','"+place+"')";
+            st = connect.prepareStatement(query);
+            st.executeUpdate(query);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-    public void removeCustomer(String place,Customer c){
-        spots.replace(place, Boolean.TRUE);
-        c.setEndDate(Calendar.getInstance()); 
-        try {
-            con = security.getConnection();
-            s = con.createStatement();
-            s.executeUpdate("UPDATE info SET ENDDATEH = "+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+
-                            ",ENDDATEM="+ Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+" WHERE id = 1 ");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-              
-    }
+    
+    
     
     public int totalParkingHours(Customer c){
         if (c.getEndDate().get(Calendar.MINUTE) >= 30)
@@ -88,10 +74,22 @@ public class Operators extends Station{
         else
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR));
 
-    }
- 
-
- 
-   
+    }    
     
+    private int getCustomerId(){
+        int id = (int)(1+Math.random()*Station.allSpots);      
+        try {
+            connect = security.getConnection();
+            query = "select id from customer where id = '" + id+"'";
+            st = connect.prepareStatement(query);
+            if(st.execute(query))
+                return getCustomerId();
+            else
+                return id;
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return 0;
+        }     
+    }
 }
