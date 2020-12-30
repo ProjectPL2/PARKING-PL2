@@ -20,6 +20,8 @@ public abstract class Station {
     static Connection connect;  
     static Statement st;
     static String query;
+    private static ArrayList<String> key; 
+    
 
     
     public void setOperatorId(int id){
@@ -74,15 +76,13 @@ public abstract class Station {
                 spots.put((char)(i+65)+""+j,true);
             }
         }
+        key = new ArrayList<>(spots.keySet());
+        Collections.sort(key);
     }
 
-public static void createDb()
+    public static void createDb()
     {
-        ArrayList<String> key = new ArrayList<>(spots.keySet()); 
-              Collections.sort(key); 
-      
-   
-   try{
+        try{
             connect=security.getConnection();
             st=connect.createStatement();
    
@@ -108,6 +108,34 @@ public static void createDb()
                 System.out.println(ex.getMessage());
             }
         }
-          
     }  
+    
+    public void addPlace(String place){
+        try{
+            connect=security.getConnection();
+            st=connect.createStatement();
+   
+            for(int i=0;i<spots.size();i++)
+            {
+                query="insert into totalspots values('"+key.get(i)+"','true')";
+                st.execute(query);
+            }
+           
+        }
+        catch(SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            try{
+                connect.close();
+                st.close();
+                
+            }
+            catch(SQLException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }

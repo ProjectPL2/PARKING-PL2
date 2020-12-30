@@ -10,9 +10,9 @@ public class Parking {
                Operators o =new Operators();
                Customer c=new Customer();
                d.addSpots();
-               //Station.createDb();
-               //o.addCustomer("A1");
-               //d.getInsert();
+               Station.createDb();
+               o.addCustomer("A1");
+               d.getInsert();
                c.insert(o, c, d);
               
                

@@ -94,9 +94,9 @@ public class Customer extends Station{
         }
 
     }
- public void insert(Operators o, Customer e,admin_DDL x){
+    public void insert(Operators o, Customer e,admin_DDL x){
      
-     try {
+        try {
           
             c=security.getConnection();
             s = c.createStatement();
@@ -107,7 +107,7 @@ public class Customer extends Station{
             System.out.println("Done");
         } catch (SQLException EX) {
             System.out.println(EX.getMessage());
-      }
+        }
     
 }
 

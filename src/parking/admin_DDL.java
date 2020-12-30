@@ -14,7 +14,6 @@ public class admin_DDL extends Station {
         try{
             c=security.getConnection();
             s = c.createStatement();
-           
             //System.out.println("Enter ID: ");
             //setOperatorId(input.nextInt());
             System.out.println("Enter name: ");

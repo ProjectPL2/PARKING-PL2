@@ -2,8 +2,8 @@ package parking;
 
 
 import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -52,7 +52,7 @@ public class Operators extends Station{
     public void addCustomer(String place){
         Customer c = new Customer();
         spots.replace(place, Boolean.FALSE);
-       System.out.print("Enter plate number : ");
+        System.out.print("Enter plate number : ");
         String plateNumber = input.nextLine();
         c.setPlateNumber(plateNumber);
         c.setPlace(place);
