@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.Scanner;
 
 
 public class Customer extends Station{
@@ -14,7 +16,9 @@ public class Customer extends Station{
     private Calendar endDate;
     static Connection c;
     static Statement s;
- 
+    static String query;
+    
+     Scanner input =new Scanner(System.in).useLocale(Locale.US);
     
     public void setId(int id) {
         this.id = id;
@@ -73,9 +77,12 @@ public class Customer extends Station{
         System.out.println("-----------------------------------------------------");
     }
    
-    public void Payment(Customer c, double payed){
+    public void payment(Customer c){
+ 
         Operators o=new Operators();
-        double exchange,cost=10*o.totalParkingHours(c);
+        double exchange,payed,cost=10*o.totalParkingHours(c);
+        System.out.println("Enter hours' cost");
+        payed=input.nextDouble();
         if(payed==cost){
             System.out.println("Payment Successfully");
         }
@@ -87,7 +94,22 @@ public class Customer extends Station{
         }
 
     }
+ public void insert(Operators o, Customer e,admin_DDL x){
+     
+     try {
+          
+            c=security.getConnection();
+            s = c.createStatement();
+            query="insert into old_customer values('"+o.getOperatorUsername()+"','"+getOperatorId()+"',"
+            + "'"+getStartShift()+"','"+getEndShift()+"','"+e.getId()+"','"+e.getPlateNumber()+"'"
+             + ",'"+10*o.totalParkingHours(e)+"')";
+            s.execute(query);
+            System.out.println("Done");
+        } catch (SQLException EX) {
+            System.out.println(EX.getMessage());
+      }
     
+}
 
     
 }

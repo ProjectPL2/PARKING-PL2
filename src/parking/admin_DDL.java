@@ -15,15 +15,15 @@ public class admin_DDL extends Station {
             c=security.getConnection();
             s = c.createStatement();
            
-            System.out.println("Enter ID: ");
-            setOperatorId(input.nextInt());
+            //System.out.println("Enter ID: ");
+            //setOperatorId(input.nextInt());
             System.out.println("Enter name: ");
-            setOperatorUsername(input.nextLine());
+            setOperatorUsername(input.next());
             System.out.println("Enter Start work shift: ");
             setStartShift(input.nextInt());
             System.out.println("Enter End work shift: ");
             setEndShift(input.nextInt());
-            s.execute("insert into PL2 (id ,name ,startShift ,endShift) values ('"+getOperatorId()+"','"+getOperatorUsername()+"','"+ getStartShift()+"','"+ getEndShift()+"')");
+            s.execute("insert into operators (id ,name ,startShift ,endShift) values ('1','"+getOperatorUsername()+"','"+ getStartShift()+"','"+ getEndShift()+"')");
             System.out.println("INSERTED");
         } catch(SQLException ex){
             System.out.println(ex.getMessage());
