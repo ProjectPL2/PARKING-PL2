@@ -89,20 +89,7 @@ public class Operators extends Station{
             return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR));
 
     }
-    
-    public void Payment(Customer c, double payed){
-        double exchange,cost=10*totalParkingHours(c);
-        if(payed==cost){
-            System.out.println("Payment Successfully");
-        }
-        else{
-            exchange=payed-cost;
-            System.out.println("Payment Successfully");
-            System.out.println("Entered:"+payed);
-            System.out.println("The Exchange is:"+exchange);
-        }
-
-    }
+ 
 
  
    

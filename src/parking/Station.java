@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public  class Station {
+public abstract class Station {
     
     
     public static final HashMap<String,Boolean> spots = new HashMap<>();
@@ -15,7 +15,8 @@ public  class Station {
     protected String operatorUsername;
     private int adminId;
     private String adminUsername;
-    
+    private int startShift;
+    private int endShift;
     static Connection connect;  
     static Statement st;
     static String query;
@@ -52,7 +53,21 @@ public  class Station {
         return this.adminUsername;
     }
     
-    protected static void creatParking(int numberOfFloors,int spotsInFloor){
+    public void setStartShift(int start){
+        this.startShift=start;
+    }
+    public int getStartShift(){
+        return this.startShift;
+    }
+    
+    public void setEndShift(int end){
+        this.endShift=end;
+    }
+    public int getEndShift(){
+        return this.endShift;
+    }
+    
+    protected static  void createParking(int numberOfFloors,int spotsInFloor){
         
         for (int i = 0; i < numberOfFloors; i++) {
             for (int j = 1; j <= spotsInFloor; j++) {
@@ -65,7 +80,7 @@ public static void createDb()
     {
         ArrayList<String> key = new ArrayList<>(spots.keySet()); 
               Collections.sort(key); 
-      //  ArrayList<Boolean> value= new ArrayList<>(spots.values());
+      
    
    try{
             connect=security.getConnection();

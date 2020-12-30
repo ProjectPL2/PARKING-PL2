@@ -72,29 +72,22 @@ public class Customer extends Station{
         System.out.println("|                                                    |");
         System.out.println("-----------------------------------------------------");
     }
-
-    public void add(){
-        try {
-            c = security.getConnection();
-            s = c.createStatement();
-            s.executeUpdate("INSERT INTO info (ID,PLATENUMBER,STARTDATEH,STARTDATEM,PLACE)"+
-                    "VALUES ('"+this.id+"','"+this.plateNumber+"','"+this.startDate.get(Calendar.HOUR_OF_DAY)+
-                    "','"+this.startDate.get(Calendar.MINUTE)+"','"+this.place+")");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+   
+    public void Payment(Customer c, double payed){
+        Operators o=new Operators();
+        double exchange,cost=10*o.totalParkingHours(c);
+        if(payed==cost){
+            System.out.println("Payment Successfully");
         }
-    }
-
-    public void remove(){
-        try {
-            c = security.getConnection();
-            s = c.createStatement();
-            s.executeUpdate("UPDATE info SET ENDDATEH = "+this.endDate.get(Calendar.HOUR_OF_DAY)+
-                            ",ENDDATEM="+ this.endDate.get(Calendar.HOUR_OF_DAY)+" WHERE id = " + this.id);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        else{
+            exchange=payed-cost;
+            System.out.println("Payment Successfully");
+            System.out.println("Entered:"+payed);
+            System.out.println("The Exchange is:"+exchange);
         }
+
     }
+    
 
     
 }

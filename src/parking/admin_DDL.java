@@ -5,10 +5,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class admin_DDL extends Station {
-    private int id;
-    private String Name;
-    private int startShift;
-    private int endShift;
+   
     private static Connection c;
     private static Statement s;
     
@@ -19,14 +16,14 @@ public class admin_DDL extends Station {
             s = c.createStatement();
            
             System.out.println("Enter ID: ");
-            id = input.nextInt();
+            setOperatorId(input.nextInt());
             System.out.println("Enter name: ");
-            Name = input.next();
+            setOperatorUsername(input.nextLine());
             System.out.println("Enter Start work shift: ");
-            startShift = input.nextInt();
+            setStartShift(input.nextInt());
             System.out.println("Enter End work shift: ");
-            endShift = input.nextInt();
-            s.execute("insert into PL2 (id ,name ,startShift ,endShift) values ('"+id+"','"+Name+"','"+startShift+"','"+endShift+"')");
+            setEndShift(input.nextInt());
+            s.execute("insert into PL2 (id ,name ,startShift ,endShift) values ('"+getOperatorId()+"','"+getOperatorUsername()+"','"+ getStartShift()+"','"+ getEndShift()+"')");
             System.out.println("INSERTED");
         } catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -48,13 +45,13 @@ public class admin_DDL extends Station {
             c=security.getConnection();
             s = c.createStatement();
             System.out.println("Enter ID to Update: ");
-            int input1 = input.nextInt();
+            int id = input.nextInt();
             System.out.println("Enter new start shift: ");
-            startShift =input.nextInt();
+            setStartShift(input.nextInt());
             System.out.println("Enter new end shift: ");
-            endShift =input.nextInt();
-            s.execute("update PL2 set startShift ='"+startShift+"' where id=('"+input1+"')");
-            s.execute("update PL2 set endShift ='"+endShift+"' where id=('"+input1+"')");
+            setEndShift(input.nextInt());
+            s.execute("update PL2 set startShift ='"+getStartShift()+"' where id=('"+id+"')");
+            s.execute("update PL2 set endShift ='"+getEndShift()+"' where id=('"+id+"')");
             System.out.println("UPDATED");
         } catch(SQLException ex){
             System.out.println(ex.getMessage());
@@ -76,8 +73,8 @@ public class admin_DDL extends Station {
             c=security.getConnection();
             s = c.createStatement();
             System.out.println("Enter ID to Delete: ");
-            int input1 = input.nextInt();
-            s.execute("delete from PL2 where id=('"+input1+"')");
+            int id = input.nextInt();
+            s.execute("delete from PL2 where id=('"+id+"')");
             System.out.println("DELETED");
         }
         catch(SQLException ex){
@@ -143,6 +140,14 @@ public class admin_DDL extends Station {
            System.out.print("\n");
         }
                       
+    }
+    public void addSpots(){
+        int numberOfFloors,numberOfSpots;
+        System.out.println("Enter number of floors");
+        numberOfFloors=input.nextInt();
+        System.out.println("Enter number of spots");
+        numberOfSpots=input.nextInt();
+        createParking(numberOfFloors,numberOfSpots);
     }
  
 }
