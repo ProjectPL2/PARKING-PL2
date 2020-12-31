@@ -1,57 +1,32 @@
 package parking;
 
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Scanner;
 
-public class Operators {
-    private int operator_id;
-    private String operator_name;
-    protected Calendar startDate;
-    protected Calendar endDate;
-
-    public Operators(int id, String name) {
-        this.operator_id = id;
-        this.operator_name = name;
-         
-    }
-
-     public void setId(int id)
-    {
-        operator_id=id;
-    }
-    public int getId()
-    {
-        return operator_id;
-    }
-     public void setName(String name)
-    {
-        operator_name=name;
-    }
-    public String getName()
-    {
-        return operator_name;
-    }
+public class Operators extends Station{
     
-    public void getFreeSpots(HashMap spots)
-    {
-        int size=spots.size();
-        
+    
+    private final Scanner input = new Scanner(System.in);
+   
+    
+    public void getFreeSpots(){
+        int size=spots.size();  
         ArrayList<String> key = new ArrayList<>(spots.keySet()); 
-        ArrayList<Boolean> value= new ArrayList<>(spots.values());
-
+        Collections.sort(key); 
         ArrayList<String> free =new ArrayList<>();
-        
         int flag =0; //to check if there are free spots or not
         for(int i=0;i<size;i++)
         {
-            if(value.get(i) == true)
+            if(spots.get(key.get(i)) == true)
             {
                 flag=1;
                 free.add(key.get(i));
             }        
-        }
-        
+        }   
         if(flag==0)
             System.out.println("sorry there is no free spot");
         else
@@ -67,22 +42,104 @@ public class Operators {
            
     }
     
-    public void addCustomer(String place , Customer c){
-        this.startDate = Calendar.getInstance(); 
-        Station.addCustomer(place);
-        c.setTransactionDate(startDate);               
+    public void addCustomer(String place){
+        try {
+            connect = security.getConnection();
+            Customer c = new Customer();
+            spots.replace(place, Boolean.FALSE);
+            c.setId(getCustomerId());
+            System.out.print("Enter plate number : ");
+            String plateNumber = input.next();
+            c.setPlateNumber(plateNumber);
+            c.setPlace(place);
+            c.setStartDate(Calendar.getInstance());
+            System.out.println("1");
+            query = "insert into customers (id_operator,id_customer,plate_number,place,start_dateH,start_dateM) "+
+                    "values ('"+operatorId+"','"+c.getId()+"','"+plateNumber+"','"+place+"','"
+                    +Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"','"+Calendar.getInstance().get(Calendar.MINUTE)+"')";
+            System.out.println("2");
+            st = connect.prepareStatement(query);
+            System.out.println("3");
+            st.executeQuery(query);
+            System.out.println("4");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally{
+            try {
+                connect.close();
+                st.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
     
-    public void removeCustomer(String place,Customer c){
-        this.endDate = Calendar.getInstance();
-        Station.removeCustomer(place);
+    public void removeCustomer(Customer c){
+        c.setEndDate(Calendar.getInstance());
+        try {
+            connect = security.getConnection();
+            query = "select place from customers where id_customer = "+c.getId();
+            st = connect.prepareStatement(query);
+            r=st.executeQuery(query);
+            String place = r.getString("place");
+            spots.replace(place, Boolean.TRUE);
+            query = "update customers set end_dateH = '"+
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"',end_dateM = '"
+                    +Calendar.getInstance().get(Calendar.MINUTE)+"',cost = '"+c.getCost()+
+                    "where id_customer = "+c.getId();
+            st.execute(query);
+            query="update totalspots set state ='true'";
+            st.execute(query);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                connect.close();
+                st.close();
+                r.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+  
+        
     }
     
-    public int totalParkingHours(){
-        if (endDate.get(Calendar.MINUTE) >= 30)
-            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR)+1);
+    
+    public int totalParkingHours(Customer c){
+        if (c.getEndDate().get(Calendar.MINUTE) >= 30)
+            return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR)+1);
         else
-            return (this.endDate.get(Calendar.HOUR)-this.startDate.get(Calendar.HOUR));
-    }
+            return (c.getEndDate().get(Calendar.HOUR)-c.getStartDate().get(Calendar.HOUR));
+
+    }    
     
+    private int getCustomerId(){
+        ArrayList<Integer> ids = new ArrayList<>();
+        int id = (int)(1+Math.random()*Station.allSpots); 
+        try {
+            connect = security.getConnection();
+            query = "select id_customer from customers where cost = 0";
+            st = connect.prepareStatement(query); 
+            r = st.executeQuery(query);
+            while (r.next()) {                
+                ids.add(r.getInt("id_customer"));
+            }
+            while (ids.contains(id)) {
+                id = (int)(1+Math.random()*Station.allSpots); 
+            }
+            return id;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return 0;
+        } finally {
+            try {
+                connect.close();
+                st.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }
